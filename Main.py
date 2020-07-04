@@ -20,6 +20,6 @@ if __name__ == '__main__':
         learning_factor=0.001,
     )
 
-    agent.run(max_iterations=2000, train=True, render=True, verbose=True, early_termination=1000)
-    # agent.load(900)
-    # agent.run(10, train=False, render=True, verbose=True, checkpoint=False)
+    # agent.run(max_iterations=2000, train=True, render=True, verbose=True, early_termination=1000)
+    agent.load(1900)
+    agent.run(10, train=False, render=True, verbose=True, checkpoint=False)

@@ -8,6 +8,7 @@ from torch.autograd import Variable
 
 def enable_cuda():
     torch.set_default_tensor_type('torch.cuda.FloatTensor')
+    torch.tensor(1, dtype=torch.float, requires_grad=True).cuda()
 
 
 def get_optimizer(target, learning_rate):
@@ -23,19 +24,19 @@ def to_tensor(data):
 
 
 class Critic(nn.Module):
-    def __init__(self, state_dim, action_dim):
+    def __init__(self, n_states, n_actions):
         super(Critic, self).__init__()
 
-        self.state_dim = state_dim
-        self.action_dim = action_dim
+        self.n_states = n_states
+        self.n_actions = n_actions
 
-        self.input = nn.Linear(state_dim, 256)
-        self.input.weight.data = uniform_weights(self.input.weight.data.size())
-        self.critic_state = nn.Linear(256, 128)
-        self.critic_state.weight.data = uniform_weights(self.critic_state.weight.data.size())
+        self.states_input = nn.Linear(n_states, 256)
+        self.states_input.weight.data = uniform_weights(self.states_input.weight.data.size())
+        self.states_hidden = nn.Linear(256, 128)
+        self.states_hidden.weight.data = uniform_weights(self.states_hidden.weight.data.size())
 
-        self.critic_action = nn.Linear(action_dim, 128)
-        self.critic_action.weight.data = uniform_weights(self.critic_action.weight.data.size())
+        self.action_input = nn.Linear(n_actions, 128)
+        self.action_input.weight.data = uniform_weights(self.action_input.weight.data.size())
 
         self.concatenated = nn.Linear(256, 128)
         self.concatenated.weight.data = uniform_weights(self.concatenated.weight.data.size())
@@ -44,9 +45,9 @@ class Critic(nn.Module):
         self.output.weight.data.uniform_(-0.003, 0.003)
 
     def forward(self, state, action):
-        x_input = functional.relu(self.input(state))
-        x_critic_state = functional.relu(self.critic_state(x_input))
-        critic_action = functional.relu(self.critic_action(action))
+        x_input = functional.relu(self.states_input(state.cuda()))
+        x_critic_state = functional.relu(self.states_hidden(x_input))
+        critic_action = functional.relu(self.action_input(action.cuda()))
         concatenate = torch.cat((x_critic_state, critic_action), dim=1)
         concatenate = functional.relu(self.concatenated(concatenate))
         return self.output(concatenate)
@@ -73,7 +74,7 @@ class Actor(nn.Module):
         self.output.weight.data.uniform_(-0.003, 0.003)
 
     def forward(self, state):
-        x = functional.relu(self.input(state))
+        x = functional.relu(self.input(state.cuda()))
         x = functional.relu(self.hidden_1(x))
         x = functional.relu(self.hidden_2(x))
         return torch.tanh(self.output(x)) * self.limit

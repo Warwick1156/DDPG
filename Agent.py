@@ -135,11 +135,11 @@ class Agent:
     def exploration(self, state):
         action = self.actor.forward(state).detach()
         noise = self.noise()
-        return action.data.numpy() + (noise * self.env.action_bounds[0][1])
+        return action.cpu().data.numpy() + (noise * self.env.action_bounds[0][1])
 
     def exploitation(self, state):
         action = self.actor_target.forward(state).detach()
-        return action.data.numpy()
+        return action.cpu().data.numpy()
 
     def save(self, episode):
         save(self.actor_target.state_dict(), DIR + self.name + str(episode) + ACTOR + EXTENSION)
@@ -148,9 +148,9 @@ class Agent:
 
     def load(self, episode):
         self.actor.load_state_dict(load(DIR + self.name + str(episode) + ACTOR + EXTENSION))
-        self.critic.load_state_dict(load(DIR + self.name + str(episode) + CRITIC + EXTENSION))
+        # self.critic.load_state_dict(load(DIR + self.name + str(episode) + CRITIC + EXTENSION))
         self.load_weights(self.actor, self.actor_target)
-        self.load_weights(self.critic, self.critic_target)
+        # self.load_weights(self.critic, self.critic_target)
 
     def checkpoint(self, episode):
         try:

@@ -28,18 +28,18 @@ import numpy as np
 
 class Noise:
 
-    def __init__(self, action_dim, mu=0, theta=0.15, sigma=0.2):
-        self.action_dim = action_dim
+    def __init__(self, n_actions, mu=0, theta=0.15, sigma=0.2):
+        self.n_actions = n_actions
         self.mu = mu
         self.theta = theta
         self.sigma = sigma
-        self.X = np.ones(self.action_dim) * self.mu
+        self.noise = np.ones(self.n_actions) * self.mu
 
     def reset(self):
-        self.X = np.ones(self.action_dim) * self.mu
+        self.noise = np.ones(self.n_actions) * self.mu
 
     def __call__(self):
-        dx = self.theta * (self.mu - self.X)
-        dx = dx + self.sigma * np.random.randn(len(self.X))
-        self.X = self.X + dx
-        return self.X
+        dx = self.theta * (self.mu - self.noise)
+        dx = dx + self.sigma * np.random.randn(len(self.noise))
+        self.noise = self.noise + dx
+        return self.noise

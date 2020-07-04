@@ -23,10 +23,10 @@ class Buffer:
         assert_len = min(self.batch_size, self.counter)
         sample_buffer = random.sample(self.buffer, assert_len)
 
-        state = Variable(from_numpy(np.float32([x[STATE] for x in sample_buffer])))
-        action = Variable(from_numpy(np.float32([x[ACTION] for x in sample_buffer])))
-        reward = Variable(from_numpy(np.float32([x[REWARD] for x in sample_buffer])))
-        next_state = Variable(from_numpy(np.float32([x[NEXT_STATE] for x in sample_buffer])))
+        state = Variable(from_numpy(np.float32([x[STATE] for x in sample_buffer])).cuda())
+        action = Variable(from_numpy(np.float32([x[ACTION] for x in sample_buffer])).cuda())
+        reward = Variable(from_numpy(np.float32([x[REWARD] for x in sample_buffer])).cuda())
+        next_state = Variable(from_numpy(np.float32([x[NEXT_STATE] for x in sample_buffer])).cuda())
 
         return state, action, reward, next_state
 
