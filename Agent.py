@@ -33,10 +33,8 @@ class Agent:
             self.set_up_neural_networks(actor_lr, critic_lr)
 
     def set_up_neural_networks(self, actor_lr, critic_lr):
-        # All action limits are the same,
-        # so I took limit from first action as env.action_bounds[0] and [1] because upper limit
-        self.actor = Actor(self.env.n_states, self.env.n_actions, self.env.action_bounds[0][1])
-        self.actor_target = Actor(self.env.n_states, self.env.n_actions, self.env.action_bounds[0][1])
+        self.actor = Actor(self.env.n_states, self.env.n_actions, self.env.action_upper_limit)
+        self.actor_target = Actor(self.env.n_states, self.env.n_actions, self.env.action_upper_limit)
         self.actor_optimizer = get_optimizer(target=self.actor.parameters(), learning_rate=actor_lr)
 
         self.critic = Critic(self.env.n_states, self.env.n_actions)
@@ -104,12 +102,14 @@ class Agent:
             action = self.policy(state, train)
             new_state, reward, done, _ = self.env.env.step(action)
             episode_reward += reward
-            next_state = np.float32(new_state)
 
-            if train and not done:
+            if not done:
+                next_state = np.float32(new_state)
                 self.buffer.record(state, action, reward, next_state)
-                self.learn()
             initial_state = new_state
+
+            if train:
+                self.learn()
 
             if done or self.terminate(counter, early_termination):
                 break
@@ -131,11 +131,10 @@ class Agent:
             action = self.exploitation(state_tensor)
         return action
 
-    # TODO: Change env.action_bounds[0][1] to make it look more obvious
     def exploration(self, state):
         action = self.actor.forward(state).detach()
         noise = self.noise()
-        return action.cpu().data.numpy() + (noise * self.env.action_bounds[0][1])
+        return action.cpu().data.numpy() + (noise * self.env.action_upper_limit)
 
     def exploitation(self, state):
         action = self.actor_target.forward(state).detach()

@@ -7,6 +7,7 @@ class EnvHelper:
         self.n_actions = None
         self.action_bounds = []
         self.env = None
+        self.action_upper_limit = None
 
     def make_environment(self, env_name):
         try:
@@ -17,6 +18,7 @@ class EnvHelper:
 
         self.n_states = self.env.observation_space.shape[0]
         self.n_actions = self.env.action_space.shape[0]
+        self.action_upper_limit = self.env.action_space.high[0]
 
         print('Input features: {}'.format(self.n_states))
         print('Output features: {}'.format(self.n_actions))

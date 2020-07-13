@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8a4b6fe3-0c46-4361-8679-3b9fd6d888a5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NN_settings.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Agent.py" beforeDir="false" afterPath="$PROJECT_DIR$/Agent.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Buffer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Buffer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EnvHelper.py" beforeDir="false" afterPath="$PROJECT_DIR$/EnvHelper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Walker0_ACTOR.pt" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Walker0_ACTOR.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Models/Walker0_CRITIC.pt" beforeDir="false" afterPath="$PROJECT_DIR$/Models/Walker0_CRITIC.pt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NeuralNetworks.py" beforeDir="false" afterPath="$PROJECT_DIR$/NeuralNetworks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OUP.py" beforeDir="false" afterPath="$PROJECT_DIR$/OUP.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -97,10 +93,23 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Main.py</url>
+          <line>26</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
